@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Inventarios</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f3;
+            color: #333;
+        }
+
+        header {
+            background: #174a35;
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        header p {
+            margin-bottom: 0;
+            color: #d9e9df;
+        }
+
+        .usuario {
+            text-align: right;
+        }
+
+        .usuario p {
+            margin: 0 0 10px;
+        }
+
+        .boton-salir {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .boton-salir:hover {
+            background: #b02a37;
+        }
+
+        .contenedor {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .bienvenida {
+            margin-bottom: 30px;
+        }
+
+        .bienvenida h2 {
+            color: #174a35;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ddd;
+            text-align: center;
+        }
+
+        .tarjeta h3 {
+            color: #174a35;
+        }
+
+        .tarjeta p {
+            color: #666;
+            min-height: 45px;
+        }
+
+        .boton {
+            display: inline-block;
+            background: #198754;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .boton:hover {
+            background: #126b40;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div>
+            <h1>Sistema de Gestión de Inventarios</h1>
+            <p>Control y trazabilidad comercial para minimercados</p>
+        </div>
+
+        <div class="usuario">
+            <p>Usuario: <strong>{{ request.user.username }}</strong></p>
+
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="boton-salir">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="contenedor">
+
+        <section class="bienvenida">
+            <h2>Bienvenido al sistema</h2>
+            <p>Seleccione el módulo al que desea ingresar.</p>
+        </section>
+
+        <section class="menu">
+
+            <div class="tarjeta">
+                <h3>Productos registrados</h3>
+                <h2 style="font-size: 40px; color: #198754;">
+                    {{ total_productos }}
+                </h2>
+                <p>Productos activos registrados en el sistema.</p>
+                <a href="/admin/inventario_productos/producto/"
+                   class="boton">Gestionar productos</a>
+            </div>
+
+            <div class="tarjeta">
+                <h3>Movimientos registrados</h3>
+            
+                <h2 style="font-size: 40px; color: #198754;">
+                    {{ total_movimientos }}
+                </h2>
+            
+                <p>Total de entradas y salidas registradas en el sistema.</p>
+            
+                <a href="/admin/inventario_productos/movimientoinventario/"
+                   class="boton">Consultar movimientos</a>
+            </div>
+
+            <div class="tarjeta">
+                <h3>Productos con stock bajo</h3>
+                <h2 style="font-size: 40px; color: #dc3545;">
+                    {{ productos_stock_bajo }}
+                </h2>
+                <p>Productos que requieren reposición.</p>
+                <a href="/admin/inventario_productos/producto/"
+                   class="boton">Revisar productos</a>
+            </div>
+
+            <div class="tarjeta">
+                <h3>Reportes</h3>
+                <p>Consultar los movimientos por fechas.</p>
+                <a href="/reportes/" class="boton">Ingresar</a>
+            </div>
+
+            <div class="tarjeta">
+                <h3>Administración</h3>
+                <p>Acceder a las opciones administrativas del sistema.</p>
+                <a href="/admin/" class="boton">Ingresar</a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        Sistema de Gestión de Inventarios - Proyecto de grado
+    </footer>
+
+</body>
+</html>
